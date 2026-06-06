@@ -43,7 +43,7 @@ func run() int {
 	}
 
 	fmt.Printf("Starting supply-chain detective client with model %q.\n", os.Getenv("OPENAI_MODEL"))
-	fmt.Printf("Connecting to mssql-mcp in %q for database %q.\n", serverDir(), os.Getenv("MSSQL_DATABASE"))
+	printMCPConnection()
 
 	mcpClient, err := connectMCP(ctx)
 	if err != nil {
@@ -109,6 +109,15 @@ func connectMCP(ctx context.Context) (*client.Client, error) {
 		return connectSSEMCP(ctx)
 	default:
 		return nil, fmt.Errorf("unsupported MSSQL_TRANSPORT %q, expected stdio or sse", os.Getenv("MSSQL_TRANSPORT"))
+	}
+}
+
+func printMCPConnection() {
+	switch strings.ToLower(strings.TrimSpace(os.Getenv("MSSQL_TRANSPORT"))) {
+	case "sse":
+		fmt.Printf("Connecting to mssql-mcp over SSE at %q for database %q.\n", sseEndpoint(), os.Getenv("MSSQL_DATABASE"))
+	default:
+		fmt.Printf("Connecting to mssql-mcp over stdio in %q for database %q.\n", serverDir(), os.Getenv("MSSQL_DATABASE"))
 	}
 }
 
