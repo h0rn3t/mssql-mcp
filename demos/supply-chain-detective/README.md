@@ -38,7 +38,20 @@ cd demos/supply-chain-detective
 go run ./client
 ```
 
-The client loads `.env`, starts `go run ./cmd/mssql-mcp` over stdio, exposes the MCP tools to Eino, and asks an Eino `ChatModelAgent` to produce the findings report. It answers all of the questions below through model-selected MCP tool calls rather than querying SQL Server directly.
+The client loads `.env`, starts `go run ./cmd/mssql-mcp` over stdio by default, exposes the MCP tools to Eino, and asks an Eino `ChatModelAgent` to produce the findings report. It answers all of the questions below through model-selected MCP tool calls rather than querying SQL Server directly.
+
+To use SSE for the demo client, start the MCP server separately from the repository root:
+
+```bash
+MSSQL_TRANSPORT=sse MSSQL_HTTP_ADDR=:8080 MSSQL_SSE_PATH=/sse go run ./cmd/mssql-mcp
+```
+
+Then set these values in `demos/supply-chain-detective/.env` before running `go run ./client`:
+
+```text
+MSSQL_TRANSPORT=sse
+MSSQL_SSE_URL=http://localhost:8080/sse
+```
 
 The client prints a transcript as it runs: the user prompt, available MCP tools, assistant tool calls, MCP tool results, token usage metadata when available, and the final answer.
 

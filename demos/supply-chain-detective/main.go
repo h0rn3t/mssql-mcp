@@ -175,13 +175,13 @@ func writeDemoEnv(host, port string) error {
 		"MSSQL_PASSWORD":                 password,
 		"MSSQL_TRUST_SERVER_CERTIFICATE": "true",
 		"MSSQL_ACCESS_LEVEL":             "READONLY",
-		"MSSQL_TRANSPORT":                "stdio",
-		"MSSQL_HTTP_ADDR":                ":8080",
-		"MSSQL_SSE_PATH":                 "/sse",
-		"MSSQL_SSE_URL":                  "http://localhost:8080/sse",
 	}
 	defaults := map[string]string{
 		"MSSQL_MCP_SERVER_DIR": "../..",
+		"MSSQL_TRANSPORT":      "stdio",
+		"MSSQL_HTTP_ADDR":      ":8080",
+		"MSSQL_SSE_PATH":       "/sse",
+		"MSSQL_SSE_URL":        "http://localhost:8080/sse",
 	}
 	order := []string{
 		"MSSQL_SERVER",
