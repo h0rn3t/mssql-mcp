@@ -92,6 +92,7 @@ func ensureEnv() error {
 	if len(missing) > 0 {
 		return fmt.Errorf("missing environment variables: %s", strings.Join(missing, ", "))
 	}
+	defaultEnv("MSSQL_ENCRYPT", "true")
 	defaultEnv("MSSQL_TRUST_SERVER_CERTIFICATE", "true")
 	defaultEnv("MSSQL_ACCESS_LEVEL", "READONLY")
 	defaultEnv("MSSQL_TRANSPORT", "stdio")

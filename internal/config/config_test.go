@@ -1,6 +1,10 @@
 package config
 
-import "testing"
+import (
+	"net/url"
+	"testing"
+	"time"
+)
 
 func TestParseAccessLevel(t *testing.T) {
 	tests := []struct {
@@ -88,5 +92,56 @@ func TestValidateTransportConfig(t *testing.T) {
 	cfg.SSEPath = "sse"
 	if err := cfg.Validate(); err == nil {
 		t.Fatal("Validate() expected error for SSE path without leading slash")
+	}
+}
+
+func TestLoadEncryptDefaultsTrue(t *testing.T) {
+	t.Setenv("MSSQL_SERVER", "localhost")
+	t.Setenv("MSSQL_DATABASE", "db")
+	t.Setenv("MSSQL_USERNAME", "sa")
+	t.Setenv("MSSQL_PASSWORD", "password")
+
+	cfg, err := Load()
+	if err != nil {
+		t.Fatalf("Load() unexpected error: %v", err)
+	}
+	if !cfg.Encrypt {
+		t.Fatal("Load() should default MSSQL_ENCRYPT to true")
+	}
+}
+
+func TestLoadEncryptFalse(t *testing.T) {
+	t.Setenv("MSSQL_SERVER", "localhost")
+	t.Setenv("MSSQL_DATABASE", "db")
+	t.Setenv("MSSQL_USERNAME", "sa")
+	t.Setenv("MSSQL_PASSWORD", "password")
+	t.Setenv("MSSQL_ENCRYPT", "false")
+
+	cfg, err := Load()
+	if err != nil {
+		t.Fatalf("Load() unexpected error: %v", err)
+	}
+	if cfg.Encrypt {
+		t.Fatal("Load() should honor MSSQL_ENCRYPT=false")
+	}
+}
+
+func TestConnectionStringEncrypt(t *testing.T) {
+	cfg := Config{
+		Server:            "localhost",
+		Port:              1433,
+		Database:          "db",
+		Username:          "sa",
+		Password:          "password",
+		Encrypt:           false,
+		ConnectionTimeout: 30 * time.Second,
+	}
+
+	u, err := url.Parse(cfg.ConnectionString())
+	if err != nil {
+		t.Fatalf("ConnectionString() returned invalid URL: %v", err)
+	}
+	if got := u.Query().Get("encrypt"); got != "false" {
+		t.Fatalf("ConnectionString() encrypt = %q, want false", got)
 	}
 }

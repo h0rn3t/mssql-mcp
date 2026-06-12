@@ -173,6 +173,7 @@ func writeDemoEnv(host, port string) error {
 		"MSSQL_DATABASE":                 databaseName,
 		"MSSQL_USERNAME":                 "sa",
 		"MSSQL_PASSWORD":                 password,
+		"MSSQL_ENCRYPT":                  "true",
 		"MSSQL_TRUST_SERVER_CERTIFICATE": "true",
 		"MSSQL_ACCESS_LEVEL":             "READONLY",
 	}
@@ -189,6 +190,7 @@ func writeDemoEnv(host, port string) error {
 		"MSSQL_DATABASE",
 		"MSSQL_USERNAME",
 		"MSSQL_PASSWORD",
+		"MSSQL_ENCRYPT",
 		"MSSQL_TRUST_SERVER_CERTIFICATE",
 		"MSSQL_ACCESS_LEVEL",
 		"MSSQL_TRANSPORT",
@@ -269,6 +271,7 @@ func printInstructions(host, port string) {
 	fmt.Printf("MSSQL_DATABASE=%s\n", databaseName)
 	fmt.Println("MSSQL_USERNAME=sa")
 	fmt.Printf("MSSQL_PASSWORD=%s\n", password)
+	fmt.Println("MSSQL_ENCRYPT=true")
 	fmt.Println("MSSQL_TRUST_SERVER_CERTIFICATE=true")
 	fmt.Println("MSSQL_ACCESS_LEVEL=READONLY")
 	fmt.Println("MSSQL_TRANSPORT=stdio")
@@ -285,6 +288,7 @@ func printInstructions(host, port string) {
         "MSSQL_DATABASE": "` + databaseName + `",
         "MSSQL_USERNAME": "sa",
         "MSSQL_PASSWORD": "` + password + `",
+        "MSSQL_ENCRYPT": "true",
         "MSSQL_TRUST_SERVER_CERTIFICATE": "true",
         "MSSQL_ACCESS_LEVEL": "READONLY"
       }

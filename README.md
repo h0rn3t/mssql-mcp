@@ -29,6 +29,7 @@ Download the latest release for your platform from the [Releases](https://github
 | `MSSQL_PASSWORD` | Yes | - | Login password |
 | `MSSQL_PORT` | No | `1433` | SQL Server port |
 | `MSSQL_ACCESS_LEVEL` | No | `READONLY` | `READONLY`, `DML-RW`, or `DDL-RW` |
+| `MSSQL_ENCRYPT` | No | `true` | Enable encrypted SQL Server connections |
 | `MSSQL_TRUST_SERVER_CERTIFICATE` | No | `false` | Trust self-signed certificates |
 | `MSSQL_CONNECTION_TIMEOUT` | No | `30` | Connection timeout in seconds |
 | `MSSQL_QUERY_TIMEOUT` | No | `120` | Query timeout in seconds |
@@ -52,6 +53,7 @@ By default, the server communicates over stdio. Configure your MCP client to lau
         "MSSQL_DATABASE": "YourDatabase",
         "MSSQL_USERNAME": "sa",
         "MSSQL_PASSWORD": "YourPassword",
+        "MSSQL_ENCRYPT": "true",
         "MSSQL_TRUST_SERVER_CERTIFICATE": "true",
         "MSSQL_ACCESS_LEVEL": "READONLY"
       }
